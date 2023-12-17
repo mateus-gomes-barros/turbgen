@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --dark-red: #882525;
+  --red: #E8293F;
+  --grey: #737373;
+  --blue: #0C8CE9;
+  --light-blue: #50B5FF;
+  --dark-blue: #114DA7;
+  --grey-blue: #4F697B;
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+}
