@@ -8,6 +8,22 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0', transform: 'translateY(40px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        pulse_button: {
+          '0%, 100%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.2)' },
+        }
+      },
+      animation: {
+        pulse_slow: 'pulse_button 1.2s ease-in-out infinite',
+        pulse_medium: 'pulse_button 0.8s ease-in-out infinite',
+        pulse_fast: 'pulse_button 0.5s ease-in-out infinite',
+        fadeIn: 'fadeIn 0.5s ease-in-out 1',
+      },
       colors:{
         darkRed: "hsl(var(--dark-red))",
         red: "hsl(var(--red))",

@@ -6,12 +6,16 @@ type styleButton = {
     borderRadius: number;
     width:number;
     height:number;
+    pulse: boolean;
+    velocity: string;
 
 }
 
 interface ScriptContextProps {
   styleButton: styleButton;
   setStyleButton: Dispatch<styleButton>;
+  ActivityCustomer: string; 
+  setActivityCustomer: Dispatch<string>;
 }
 
 const ScriptContext = createContext({} as ScriptContextProps);
@@ -25,9 +29,12 @@ export default function ScriptcontextProvider({
     borderRadius: 0,
     width:150,
     height:40,
+    pulse:false,
+    velocity:'1'
   } as styleButton);
+  const [ActivityCustomer, setActivityCustomer] = useState('button')
   return (
-    <ScriptContext.Provider value={{ styleButton, setStyleButton }}>
+    <ScriptContext.Provider value={{ styleButton, setStyleButton,ActivityCustomer,setActivityCustomer }}>
       {children}
     </ScriptContext.Provider>
   );
