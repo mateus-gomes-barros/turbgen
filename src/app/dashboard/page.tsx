@@ -1,12 +1,12 @@
 "use client";
 import Card from "@/components/ui/card";
 import { useScripts } from "@/contexts/ScriptContext";
-import { scripts } from "@/helpers/scripts";
+import { copy, scripts } from "@/helpers/scripts";
 import { useEffect } from "react";
 import CardButton from "./[components]/card_button";
 import CardVideo from "./[components]/card_video";
 export default function Page() {
-  const { styleButton, setStyleButton, setActivityCustomer, ActivityCustomer } =
+  const { styleButton, ActivityCustomer } =
     useScripts();
   const velocity = {
     "1": "animate-pulse_slow",
@@ -32,6 +32,18 @@ export default function Page() {
             return (
               <Card
                 key={index}
+                url={script.url}
+                title={script.title}
+                description={script.description}
+                titleButton={script.titleButton}
+              />
+            );
+          })}
+          {copy.map((script, index) => {
+            return (
+              <Card
+                key={index}
+                action={()=>{}}
                 title={script.title}
                 description={script.description}
                 titleButton={script.titleButton}

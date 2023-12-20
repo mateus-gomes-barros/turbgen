@@ -1,4 +1,4 @@
-import { useScripts } from "@/contexts/ScriptContext";
+import { styleButtonProps, useScripts } from "@/contexts/ScriptContext";
 import { Copy } from "lucide-react";
 export default function CardButton() {
   const velocity = {
@@ -105,7 +105,7 @@ export default function CardButton() {
               </label>
               <select
                 onChange={(e) =>
-                  setStyleButton({ ...styleButton, velocity: e.target.value })
+                  setStyleButton({ ...styleButton, velocity: e.target.value as styleButtonProps["velocity"]})
                 }
                 className="w-[80px] outline-none px-1 py-1 rounded-lg border-[darkRed] border-[1px] text-[12px]"
               >
@@ -116,7 +116,8 @@ export default function CardButton() {
             </div>
           </div>
         </div>
-        <div className="flex flex-1 justify-center items-center mb-16">
+        <div className="fnpm run dev 
+        lex flex-1 justify-center items-center mb-16">
           <button
             className={`h-[3rem] text-white w-[80%] rounded-lg bg-[#1a91ff] rounded-[${
               styleButton?.borderRadius || 0
