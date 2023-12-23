@@ -5,14 +5,18 @@ import { copy, scripts } from "@/helpers/scripts";
 import { useEffect } from "react";
 import CardButton from "./[components]/card_button";
 import CardVideo from "./[components]/card_video";
+
+
 export default function Page() {
-  const { styleButton, ActivityCustomer } =
+  const { styleButton, ActivityCustomer, ClipBoardCopy } =
     useScripts();
   const velocity = {
     "1": "animate-pulse_slow",
     "2": "animate-pulse_medium",
     "3": "animate-pulse_fast",
   };
+
+  
   useEffect(() => {
     console.log(styleButton);
   }, [styleButton]);
@@ -43,7 +47,7 @@ export default function Page() {
             return (
               <Card
                 key={index}
-                action={()=>{}}
+                action={()=>ClipBoardCopy(script.script)}
                 title={script.title}
                 description={script.description}
                 titleButton={script.titleButton}

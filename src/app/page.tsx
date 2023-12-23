@@ -13,7 +13,7 @@ export default function Home() {
         <div className="flex flex-col items-center">
           <input
             placeholder="Seu email do VTurb"
-            className="px-2 mb-4 text-white border-[#979696] border border-[1px] w-[60%] h-10 shadow-[0_5px_10px_1px_rgba(0,0,0,0.3)] focus:outline-none hover:border-[red] bg-transparent border-b rounded-2xl border-white"
+            className="px-2 mb-4 text-white border-[1px] w-[60%] h-10 shadow-[0_5px_10px_1px_rgba(0,0,0,0.3)] focus:outline-none hover:border-[red] bg-transparent border-b rounded-2xl border-white"
           ></input>
           <p className="text-center text-[red]  w-[80%] font-bold">
             Gere seus códigos sem precisar entender nada de programação, apenas

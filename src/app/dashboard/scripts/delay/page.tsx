@@ -1,11 +1,74 @@
-"use client"
-
+"use client";
 
 import MiniCard from "@/components/ui/mini_card";
-import {Copy} from 'lucide-react'
+import { useScripts } from "@/contexts/ScriptContext";
+import { Copy } from "lucide-react";
+import { useState } from "react";
 export default function Delay() {
+  const [alreadyScript, setAlreadyScript] = useState(false);
+  const { ClipBoardCopy, configDelay, setConfigDelay } = useScripts();
+  const variable = "`alreadyElsDisplayed${SECONDS_TO_DISPLAY}`";
+  const script = `
+  <style>.esconder { display: none }</style>
+
+<script type="text/javascript">
+document.addEventListener("DOMContentLoaded", function() {
+/* ALTERE O VALOR 10 PARA OS SEGUNDOS EM QUE AS SEÇÕES VÃO APARECER */
+var SECONDS_TO_DISPLAY = ${configDelay.time};
+var CLASS_TO_DISPLAY = ${
+    configDelay.className.length > 0 ? "." + configDelay.className : ".esconder"
+  };
+/* DAQUI PARA BAIXO NAO PRECISA ALTERAR */
+var attempts = 0;
+var elsHiddenList = [];
+var elsDisplayed = false;
+var elsHidden = document.querySelectorAll(CLASS_TO_DISPLAY);
+var alreadyDisplayedKey =${variable}
+var alreadyElsDisplayed = null;
+try {
+    alreadyElsDisplayed = localStorage.getItem(alreadyDisplayedKey);
+} catch(e) {
+    console.warn('Failed to read data from localStorage: ', e);
+}
+setTimeout(function () { elsHiddenList = Array.prototype.slice.call(elsHidden); }, 0);
+var showHiddenElements = function () {
+elsDisplayed = true;
+elsHiddenList.forEach((e) => e.style.display = "block");
+try {
+  localStorage.setItem(alreadyDisplayedKey, true);
+} catch (e) {
+  console.warn('Failed to save data in localStorage: ', e);
+}
+}
+var startWatchVideoProgress = function () {
+if (typeof smartplayer === 'undefined' || !(smartplayer.instances && smartplayer.instances.length)) {
+if (attempts >= 10) return;
+attempts += 1;
+return setTimeout(function () { startWatchVideoProgress() }, 1000);
+}
+smartplayer.instances[0].on('timeupdate', () => {
+if (elsDisplayed || smartplayer.instances[0].smartAutoPlay) return;
+if (smartplayer.instances[0].video.currentTime < SECONDS_TO_DISPLAY) return;
+showHiddenElements();
+})
+}
+if (alreadyElsDisplayed === 'true') {
+setTimeout(function () { showHiddenElements(); }, 100);
+} else {
+startWatchVideoProgress()
+}
+});
+</script>
+  
+  `;
+
+  function Generate() {
+    setAlreadyScript(true);
+    ClipBoardCopy(script);
+  }
+
   return (
-    <div className="flex w-full h-full gap-4  px-8 py-8">
+    <div className="flex w-full h-[80vh] gap-4  px-8 py-8">
       <section className="flex-1 flex flex-col">
         <h1 className="text-white font-medium text-2xl">Script de Delay</h1>
         <div className="flex flex-col gap-4 mt-16">
@@ -17,6 +80,12 @@ export default function Delay() {
               <input
                 className="bg-transparent outline-none border-b border-b-gray-100 text-white"
                 placeholder="Ex: 10"
+                onChange={(e) =>
+                  setConfigDelay({
+                    ...configDelay,
+                    time: Number(e.target.value),
+                  })
+                }
                 type="number"
               />
             </MiniCard>
@@ -26,49 +95,58 @@ export default function Delay() {
               </label>
               <input
                 className="bg-transparent outline-none border-b border-b-gray-100 text-white"
-                placeholder="Ex: 10"
-                type="number"
+                placeholder="Ex: esconder"
+                onChange={(e) =>
+                  setConfigDelay({ ...configDelay, className: e.target.value })
+                }
+                type="text"
               />
             </MiniCard>
           </div>
-          <h2 className="text-white">INFORMAÇÕES SOBRE SEU CÓDIGO GERADO</h2>
-          <div className="flex flex-1 gap-4">
-            <MiniCard>
-              <label className="text-white text-sm">
-                Seu delay é de: X minutos
-              </label>
-              <label className="text-white text-sm">
-                O nome da sua classe é: X
-              </label>
-            </MiniCard>
-            <MiniCard>
-              <label className="text-white text-lg">INSTRUÇÕES:</label>
-              <p className="text-white text-sm">
-                Cole o código em sua página de vendas. Caso não saiba como,
-                temos o tutorial abaixo:
-              </p>
-              <a
-                target="_blank"
-                className="bg-[#bb3131] rounded-full hover:brightness-125 transition-all text-sm p-2 text-white text-center"
-                href="https://help.vturb.com/pt-br/article/codigo-de-delay-para-sincronizar-elementos-da-pagina-com-o-video-xehbf8/"
-              >
-                Tutorial Script de Delay
-              </a>
-            </MiniCard>
-          </div>
+          <button
+            className="bg-[#bb3131] rounded-full hover:brightness-125 transition-all text-sm p-2 text-white text-center mt-4 ml-auto flex gap-1"
+            onClick={Generate}
+          >
+            <Copy size={20} />
+            Gerar e Copiar Código
+          </button>
+          {alreadyScript && (
+            <>
+              <h2 className="text-white">
+                INFORMAÇÕES SOBRE SEU CÓDIGO GERADO
+              </h2>
+              <div className="flex flex-1 gap-4">
+                <MiniCard>
+                  <label className="text-white text-[14px]">
+                    Seu delay é de: {(configDelay.time / 60).toFixed()} min e{" "}
+                    {(((configDelay.time / 60) % 1) * 60).toFixed() + " s"}
+                  </label>
+                  <label className="text-white text-sm">
+                    O nome da sua classe é: {configDelay.className}
+                  </label>
+                </MiniCard>
+              </div>
+            </>
+          )}
         </div>
       </section>
-      <section className="flex flex-1 border flex-col p-4 rounded-3xl">
-        <h2 className="text-white">EMBED DO SEU VÍDEO</h2>
-        <textarea
-          className="w-full max-h-[300px] h-full mt-4 bg-transparent outline-none text-white"
-          placeholder="Cole seu embed aqui"
-          
-        />
-        <button className="bg-[#bb3131] rounded-full hover:brightness-125 transition-all text-sm p-2 text-white text-center mt-4 ml-auto flex gap-1">
-            <Copy size={20}/>
-          Gerar e Copiar Código
-        </button>
+      <section className="flex flex-1 flex-col p-4 rounded-3xl h-full">
+        {alreadyScript && (
+          <MiniCard>
+            <label className="text-white text-lg">INSTRUÇÕES:</label>
+            <p className="text-white text-sm">
+              Cole o código em sua página de vendas. Caso não saiba como, temos
+              o tutorial abaixo:
+            </p>
+            <a
+              target="_blank"
+              className="bg-[#ec4141] mt-auto rounded-full hover:brightness-125 transition-all text-sm p-2 text-white text-center"
+              href="https://help.vturb.com/pt-br/article/codigo-de-delay-para-sincronizar-elementos-da-pagina-com-o-video-xehbf8/"
+            >
+              Tutorial Script de Delay
+            </a>
+          </MiniCard>
+        )}
       </section>
     </div>
   );

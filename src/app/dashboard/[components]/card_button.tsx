@@ -6,7 +6,31 @@ export default function CardButton() {
     "2": "animate-pulse_medium",
     "3": "animate-pulse_fast",
   };
-  const { styleButton, setStyleButton, setActivityCustomer, ActivityCustomer } = useScripts();
+  const { styleButton, setStyleButton, setActivityCustomer, ClipBoardCopy } = useScripts();
+
+  const StyleCSS = `
+  <style>
+    @keyframes pulse{
+      0% { 
+          transform: scale(1); 
+        }
+        
+        100%{ 
+          transform: scale(1.2) 
+        };
+
+      }
+      .smartplayer-call-action--link{
+        border-radius: ${styleButton.borderRadius}px !important;
+        height: ${styleButton.height}px !important;
+        width: ${styleButton.width}px !important;
+        ${styleButton.pulse ?  "animation: pulse " + Number(styleButton.velocity)/2+"s ease-in-out infinite !important;": ''}
+      }
+    
+  </style>
+  `
+
+  
   return (
     <div className="flex flex-[0.6] flex-col  items-center min-h-[75vh] border-black shadow-[0_35px_60px_15px_rgba(0,0,0,0.3)] rounded-2xl px-8 py-8 bg-[#faf4f4] animate-fadeIn">
       <h1 className="text-[#474747] font-medium text-2xl mr-auto">
@@ -43,6 +67,7 @@ export default function CardButton() {
             <div className="mb-2">
               <input
                 type="number"
+                defaultValue={styleButton.height}
                 onChange={(e) =>
                   setStyleButton({
                     ...styleButton,
@@ -67,7 +92,8 @@ export default function CardButton() {
               <input
                 id="cor_borda"
                 type="number"
-                min={206}
+                defaultValue={styleButton.width}
+                min={120}
                 onChange={(e) =>
                   setStyleButton({
                     ...styleButton,
@@ -89,6 +115,7 @@ export default function CardButton() {
                 Pulsar
               </label>
               <input
+                checked={styleButton.pulse}
                 type="checkbox"
                 onChange={() =>
                   setStyleButton({
@@ -104,6 +131,7 @@ export default function CardButton() {
                 Velocidade da animação
               </label>
               <select
+                defaultValue={styleButton.velocity}
                 onChange={(e) =>
                   setStyleButton({ ...styleButton, velocity: e.target.value as styleButtonProps["velocity"]})
                 }
@@ -140,7 +168,9 @@ export default function CardButton() {
         >
           Estilizar Video Vturb
         </button>
-        <button className="flex gap-2 rounded-lg p-2  mt-auto  text-white  from-[#f53131] from-10% bg-gradient-to-r via-[#8b3131] via-100% to-100% to-[#4d1a0a]">
+        <button className="flex gap-2 rounded-lg p-2  mt-auto  text-white  from-[#f53131] from-10% bg-gradient-to-r via-[#8b3131] via-100% to-100% to-[#4d1a0a]"
+          onClick={()=>ClipBoardCopy(StyleCSS)}
+        >
           Gerar e Copiar Estilo
           <Copy color="white" size={20} />
         </button>

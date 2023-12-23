@@ -19,8 +19,8 @@ const config: Config = {
         }
       },
       animation: {
-        pulse_slow: 'pulse_button 1.2s ease-in-out infinite',
-        pulse_medium: 'pulse_button 0.8s ease-in-out infinite',
+        pulse_slow: 'pulse_button 1.5s ease-in-out infinite',
+        pulse_medium: 'pulse_button 1s ease-in-out infinite',
         pulse_fast: 'pulse_button 0.5s ease-in-out infinite',
         fadeIn: 'fadeIn 0.5s ease-in-out 1',
       },
