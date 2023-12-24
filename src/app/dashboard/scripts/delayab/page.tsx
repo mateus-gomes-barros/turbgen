@@ -38,8 +38,61 @@ export default function DelayAB() {
     "Y",
     "Z",
   ];
+  const embed = `
+<div id="vid_653d0c1267a28d00081934df" style="position:relative;width:100%;padding: 56.25% 0 0;"><img id="thumb_653d0c1267a28d00081934df" src="https://images.converteai.net/731b1a17-a0f6-4521-b6f8-c62453dc0b90/players/653d0c1267a28d00081934df/thumbnail.jpg" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block;"><div id="backdrop_653d0c1267a28d00081934df" style="position:absolute;top:0;width:100%;height:100%;-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);"></div></div><script type="text/javascript" id="scr_653d0c1267a28d00081934df">var s=document.createElement("script");s.src="https://scripts.converteai.net/731b1a17-a0f6-4521-b6f8-c62453dc0b90/players/653d0c1267a28d00081934df/player.js",s.async=!0,document.head.appendChild(s);</script>
 
-  const scriptAB = `
+`;
+  const buildIds = () => {
+    let ids = configVideo.configs
+      .map((config) => {
+        let parser = new DOMParser();
+        let doc = parser.parseFromString(config.embed, "text/html");
+        let video = doc.getElementsByTagName("div");
+        if (config.embed.length > 40) {
+          let id = video[0].id.replace("vid_", "");
+          return { id, letter: config.id, time: config.time };
+        } else {
+          return {};
+        }
+      })
+      .filter((item) => item.id != "");
+
+    return ids;
+  };
+
+  function BuildScripts() {
+   return buildIds().map((embeds) => {
+      return ` if (
+          smartplayer.instances[0].analytics.player.options.id ==
+          "${embeds.id}"
+        ) {
+          const queryString =
+            window.location.search.replace("utm_source=FB", "") +
+            "&utm_source=vsl${embeds.letter}";
+          if (buttonLinks[0].href.includes("vsl${embeds.letter}")) {
+            return;
+          }
+          buttonLinks.forEach((buttonLink) => {
+            buttonLink.href += queryString;
+          });
+        }
+      }`;
+    });
+  }
+  function BuildScriptsDelay() {
+   return buildIds().map((embeds) => {
+      return `if (
+        /* COLOCAR ENTRE AS '' O ID DO SEU PLAYER A E NO VALOR 10, COLOQUE O 
+                 TEMPO QUE AS SEÇÕES DEVEM APARECER DURANTE O VÍDEO A*/
+        smartplayer.instances[0].analytics.player.options.id ==
+        "${embeds.id}"
+      ) {
+        SECONDS_TO_DISPLAY = ${embeds.time || 10};
+      }`;
+    });
+  }
+
+  const scriptAB = ()=> { return (`
   <style>
 
   .esconder {
@@ -50,7 +103,7 @@ export default function DelayAB() {
   document.addEventListener("DOMContentLoaded", function () {
     /* AQUI VOCÊ NÃO ALTERA NADA */
     var SECONDS_TO_DISPLAY = 12;
-    var CLASS_TO_DISPLAY = ".esconder";
+    var CLASS_TO_DISPLAY = ".${configVideo.className}";
 
     var attempts = 0;
     var elsHiddenList = [];
@@ -92,38 +145,9 @@ export default function DelayAB() {
 
       smartplayer.instances[0].on("play", () => {
         /* COLOCAR ENTRE AS '' O ID DO SEU PLAYER A */
-        const buttonLinks = document.querySelectorAll(".bt-red");
+        const buttonLinks = document.querySelectorAll("${configVideo.classButton}");
         console.log(buttonLinks);
-        if (
-          smartplayer.instances[0].analytics.player.options.id ==
-          "62f7b142a90dbc000a0e8f45"
-        ) {
-          const queryString =
-            window.location.search.replace("utm_source=FB", "") +
-            "&utm_source=vslA";
-          if (buttonLinks[0].href.includes("vslA")) {
-            return;
-          }
-          buttonLinks.forEach((buttonLink) => {
-            buttonLink.href += queryString;
-          });
-        }
-        if (
-          /* COLOCAR ENTRE AS '' O ID DO SEU PLAYER B */
-          smartplayer.instances[0].analytics.player.options.id ==
-          "6286b08c06aa090009247143"
-        ) {
-          const queryString =
-            window.location.search.replace("utm_source=FB", "") +
-            "&utm_source=vslB";
-
-          if (buttonLinks[0].href.includes("vslB")) {
-            return;
-          }
-          buttonLinks.forEach((buttonLink) => {
-            buttonLink.href += queryString;
-          });
-        }
+        ${BuildScripts()}
 
 /* CASO TENHA MAIS VÍDEOS PARA PASSAR O UTM COLAR NA LINHA ABAIXO*/
 
@@ -134,24 +158,11 @@ export default function DelayAB() {
         showHiddenElements();
       });
       smartplayer.instances[0].on("timeupdate", () => {
-        const buttonLinks = document.querySelectorAll(".bt-red");
+        const buttonLinks = document.querySelectorAll("${
+          configVideo.classButton
+        }");
 
-        if (
-          /* COLOCAR ENTRE AS '' O ID DO SEU PLAYER A E NO VALOR 10, COLOQUE O 
-                   TEMPO QUE AS SEÇÕES DEVEM APARECER DURANTE O VÍDEO A*/
-          smartplayer.instances[0].analytics.player.options.id ==
-          "62f7b142a90dbc000a0e8f45"
-        ) {
-          SECONDS_TO_DISPLAY = 10;
-        }
-        if (
-          /* COLOCAR ENTRE AS '' O ID DO SEU PLAYER B E NO VALOR 20, COLOQUE O 
-                   TEMPO QUE AS SEÇÕES DEVEM APARECER DURANTE O VÍDEO B*/
-          smartplayer.instances[0].analytics.player.options.id ==
-          "6286b08c06aa090009247143"
-        ) {
-          SECONDS_TO_DISPLAY = 20;
-        }
+       ${BuildScriptsDelay()}
 
       /* CASO TENHA MAIS VÍDEOS PARA COLOCAR DELAY COLAR NA LINHA ABAIXO*/
 
@@ -172,7 +183,7 @@ export default function DelayAB() {
     }
   });
 </script>
-  `;
+  `)};
 
   function MountObjectConfig(value: number) {
     if (value < configVideo.quant) {
@@ -320,7 +331,7 @@ export default function DelayAB() {
               <CardAB
                 key={config.id}
                 id={config.id}
-                action={() => ClipBoardCopy(scriptAB)}
+                action={()=> ClipBoardCopy(scriptAB())}
                 index={index}
               />
             );
