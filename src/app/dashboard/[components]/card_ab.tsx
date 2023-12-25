@@ -4,11 +4,12 @@ import { Copy } from "lucide-react";
 
 interface Props {
   id: string;
+  data: config;
   action: () => void;
   index: number;
 }
 
-export default function CardAB({ id, action, index }: Props) {
+export default function CardAB({ id, action, index,data}: Props) {
   const { configVideo, setConfigVideo } = useScripts();
 
   function ChangeEmbedScript(data: string) {
@@ -46,6 +47,7 @@ export default function CardAB({ id, action, index }: Props) {
       <h2 className="text-white">EMBED DO SEU VÍDEO</h2>
       <textarea
         onChange={(e) => ChangeEmbedScript(e.target.value)}
+        defaultValue={data.embed}
         className="w-full max-h-[300px] h-full mt-4 bg-transparent outline-none text-white"
         placeholder="Cole seu embed aqui"
       />
@@ -56,6 +58,7 @@ export default function CardAB({ id, action, index }: Props) {
           </label>
           <input
             onChange={(e) => ChangeTimeScript(e.target.value)}
+            defaultValue={data.time}
             className="bg-transparent outline-none border-b border-b-gray-100 text-white"
             placeholder="Ex: 10"
             type="number"

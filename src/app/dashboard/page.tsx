@@ -26,10 +26,10 @@ export default function Page() {
       <div className="flex flex-1 h-[75vh] flex-col border-black shadow-[0_35px_60px_15px_rgba(0,0,0,0.5)] rounded-2xl overflow-hidden animate-fadeIn">
         <header className="w-full  px-8 py-8">
           <h1 className="text-white font-medium text-2xl">TurbGen</h1>
-          <input
+          {/* <input
             placeholder="O que você está buscando?"
             className="mt-2 bg-[#fff0] w-full border-b-[1px] border-[#acacac] focus:outline-none text-white"
-          />
+          /> */}
         </header>
         <div className=" h-[60%] mt-auto flex flex-row from-[#521818] from-10% bg-gradient-to-r via-[#df4d4d] via-100% to-100% to-[#bd3005]">
           {scripts.map((script, index) => {

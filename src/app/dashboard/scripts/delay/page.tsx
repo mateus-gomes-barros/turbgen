@@ -9,15 +9,17 @@ export default function Delay() {
   const { ClipBoardCopy, configDelay, setConfigDelay } = useScripts();
   const variable = "`alreadyElsDisplayed${SECONDS_TO_DISPLAY}`";
   const script = `
-  <style>.esconder { display: none }</style>
+  <style>${
+    configDelay.className.length > 0 ? "." + configDelay.className : ".esconder"
+  } { display: none }</style>
 
 <script type="text/javascript">
 document.addEventListener("DOMContentLoaded", function() {
 /* ALTERE O VALOR 10 PARA OS SEGUNDOS EM QUE AS SEÇÕES VÃO APARECER */
 var SECONDS_TO_DISPLAY = ${configDelay.time};
-var CLASS_TO_DISPLAY = ${
+var CLASS_TO_DISPLAY = "${
     configDelay.className.length > 0 ? "." + configDelay.className : ".esconder"
-  };
+  }"
 /* DAQUI PARA BAIXO NAO PRECISA ALTERAR */
 var attempts = 0;
 var elsHiddenList = [];

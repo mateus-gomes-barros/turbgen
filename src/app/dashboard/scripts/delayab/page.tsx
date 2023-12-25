@@ -62,7 +62,7 @@ export default function DelayAB() {
 
   function BuildScripts() {
    return buildIds().map((embeds) => {
-      return ` if (
+      return `if (
           smartplayer.instances[0].analytics.player.options.id ==
           "${embeds.id}"
         ) {
@@ -75,8 +75,7 @@ export default function DelayAB() {
           buttonLinks.forEach((buttonLink) => {
             buttonLink.href += queryString;
           });
-        }
-      }`;
+        }`;
     });
   }
   function BuildScriptsDelay() {
@@ -92,10 +91,11 @@ export default function DelayAB() {
     });
   }
 
-  const scriptAB = ()=> { return (`
-  <style>
+const scriptAB = ()=> (`
 
-  .esconder {
+<style>
+
+.${configVideo.className || `esconder`} {
     display: none;
   }
 </style>
@@ -103,7 +103,7 @@ export default function DelayAB() {
   document.addEventListener("DOMContentLoaded", function () {
     /* AQUI VOCÊ NÃO ALTERA NADA */
     var SECONDS_TO_DISPLAY = 12;
-    var CLASS_TO_DISPLAY = ".${configVideo.className}";
+    var CLASS_TO_DISPLAY = ".esconder";
 
     var attempts = 0;
     var elsHiddenList = [];
@@ -145,9 +145,12 @@ export default function DelayAB() {
 
       smartplayer.instances[0].on("play", () => {
         /* COLOCAR ENTRE AS '' O ID DO SEU PLAYER A */
-        const buttonLinks = document.querySelectorAll("${configVideo.classButton}");
+        const buttonLinks = document.querySelectorAll("${configVideo.classButton || ".btn-red"}");
         console.log(buttonLinks);
-        ${BuildScripts()}
+
+
+        ${BuildScripts().join(" ")}
+
 
 /* CASO TENHA MAIS VÍDEOS PARA PASSAR O UTM COLAR NA LINHA ABAIXO*/
 
@@ -158,11 +161,9 @@ export default function DelayAB() {
         showHiddenElements();
       });
       smartplayer.instances[0].on("timeupdate", () => {
-        const buttonLinks = document.querySelectorAll("${
-          configVideo.classButton
-        }");
+        const buttonLinks = document.querySelectorAll("${configVideo.classButton || ".btn-red"}");
 
-       ${BuildScriptsDelay()}
+        ${BuildScriptsDelay().join(" ")}
 
       /* CASO TENHA MAIS VÍDEOS PARA COLOCAR DELAY COLAR NA LINHA ABAIXO*/
 
@@ -183,7 +184,8 @@ export default function DelayAB() {
     }
   });
 </script>
-  `)};
+
+`)
 
   function MountObjectConfig(value: number) {
     if (value < configVideo.quant) {
@@ -254,7 +256,13 @@ export default function DelayAB() {
               <input
                 className="bg-transparent outline-none border-b border-b-gray-100 text-white"
                 placeholder="Ex: esconder"
-                type="number"
+                onChange={(e) =>
+                  setConfigVideo({
+                    ...configVideo,
+                    className: e.target.value,
+                  })
+                }
+                type="text"
               />
             </MiniCard>
             <MiniCard>
@@ -278,12 +286,13 @@ export default function DelayAB() {
         <h2 className="text-white">INFORMAÇÕES SOBRE SEU CÓDIGO GERADO</h2>
         <div className="flex flex-1 gap-4">
           <MiniCard>
-            <label className="text-white text-sm">
-              Seu delay é de: X minutos
-            </label>
-            <label className="text-white text-sm">
-              O nome da sua classe é: X
-            </label>
+          <label className="text-white text-[14px]">
+                    Seu delay é de: {(configVideo.configs[scriptActual].time / 60).toFixed()} min e{" "}
+                    {(((configVideo.configs[scriptActual].time / 60) % 1) * 60).toFixed() + " s"}
+                  </label>
+                  <label className="text-white text-sm">
+                    O nome da sua classe é: {configVideo.className}
+                  </label>
           </MiniCard>
           <MiniCard>
             <label className="text-white text-lg">INSTRUÇÕES:</label>
@@ -330,6 +339,7 @@ export default function DelayAB() {
             return (
               <CardAB
                 key={config.id}
+                data={config}
                 id={config.id}
                 action={()=> ClipBoardCopy(scriptAB())}
                 index={index}

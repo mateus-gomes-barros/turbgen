@@ -6,11 +6,16 @@ export default function CardVideo() {
   const {setActivityCustomer, ClipBoardCopy, styleVideo, setStyleVideo } = useScripts();
 
   const StyleCSS = `
+  <style>.smartplayer-call-action {
+    text-align: center!important;
+    padding: 40px 0!important;
+    }@media (max-width: 448px){ .smartplayer-call-action a.smartplayer-call-action--link{ font-size: 16px!important; width: 100%!important }}@media (max-width: 337px){ .smartplayer-call-action a.smartplayer-call-action--link{ font-size: 14px!important }}</style>
+
   <style>
       #smartplayer{
         border-width: ${styleVideo.borderWidth}px !important;
         color: ${styleVideo.color} !important;
-        ${styleVideo.shadow ? "box-shadow: 0px 10px 20px "+styleVideo.color + " !important;" : ""}
+        ${styleVideo.shadow ? "box-shadow: 0px 0px 20px "+styleVideo.color + " !important;" : ""}
       }
   </style>
   `
@@ -82,7 +87,7 @@ export default function CardVideo() {
             alt="video"
             width={280}
             height={140}
-            style={{borderWidth: `${styleVideo.borderWidth}px`,borderColor: styleVideo.color, boxShadow: styleVideo.shadow? `0px 10px 20px ${styleVideo.color}`:"none"}}
+            style={{borderWidth: `${styleVideo.borderWidth}px`,borderColor: styleVideo.color, boxShadow: styleVideo.shadow? `0px 0px 20px ${styleVideo.color}`:"none"}}
           />
         </div>
       </div>

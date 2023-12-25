@@ -76,7 +76,7 @@ export default function ScriptcontextProvider({
   });
   const [styleButton, setStyleButton] = useState({
     borderRadius: 0,
-    width: 150,
+    width: 200,
     height: 40,
     pulse: false,
     velocity: "1",

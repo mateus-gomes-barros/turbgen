@@ -2,21 +2,31 @@ import { styleButtonProps, useScripts } from "@/contexts/ScriptContext";
 import { Copy } from "lucide-react";
 export default function CardButton() {
   const velocity = {
-    "1": "animate-pulse_slow",
+    "3": "animate-pulse_slow",
     "2": "animate-pulse_medium",
-    "3": "animate-pulse_fast",
+    "1": "animate-pulse_fast",
   };
   const { styleButton, setStyleButton, setActivityCustomer, ClipBoardCopy } = useScripts();
 
   const StyleCSS = `
+
+  <style>.smartplayer-call-action {
+    text-align: center!important;
+    padding: 40px 0!important;
+    }@media (max-width: 448px){ .smartplayer-call-action a.smartplayer-call-action--link{ font-size: 16px!important; width: 100%!important }}@media (max-width: 337px){ .smartplayer-call-action a.smartplayer-call-action--link{ font-size: 14px!important }}</style>
+
   <style>
-    @keyframes pulse{
+    @keyframes pulse_gen{
       0% { 
           transform: scale(1); 
         }
-        
-        100%{ 
+      
+        50%{ 
           transform: scale(1.2) 
+        };
+
+        100%{ 
+          transform: scale(1) 
         };
 
       }
@@ -24,7 +34,12 @@ export default function CardButton() {
         border-radius: ${styleButton.borderRadius}px !important;
         height: ${styleButton.height}px !important;
         width: ${styleButton.width}px !important;
-        ${styleButton.pulse ?  "animation: pulse " + Number(styleButton.velocity)/2+"s ease-in-out infinite !important;": ''}
+        padding: 0 !important;
+        display:flex !important;
+        margin:auto !important; 
+        align-items:center !important;
+        justify-content:center !important;
+        ${styleButton.pulse ?  "animation: pulse_gen " + Number(styleButton.velocity)/2+"s ease-in-out infinite !important;": ''}
       }
     
   </style>
@@ -93,7 +108,7 @@ export default function CardButton() {
                 id="cor_borda"
                 type="number"
                 defaultValue={styleButton.width}
-                min={120}
+                min={200}
                 onChange={(e) =>
                   setStyleButton({
                     ...styleButton,
@@ -137,15 +152,15 @@ export default function CardButton() {
                 }
                 className="w-[80px] outline-none px-1 py-1 rounded-lg border-[darkRed] border-[1px] text-[12px]"
               >
-                <option value={1}>Lento</option>
+                <option value={3}>Lento</option>
                 <option value={2}>Médio</option>
-                <option value={3}>Rápido</option>
+                <option value={1}>Rápido</option>
               </select>
             </div>
           </div>
         </div>
-        <div className="fnpm run dev 
-        lex flex-1 justify-center items-center mb-16">
+        <div className="
+        flex flex-1 justify-center items-center mb-16">
           <button
             className={`h-[3rem] text-white w-[80%] rounded-lg bg-[#1a91ff] rounded-[${
               styleButton?.borderRadius || 0
@@ -154,8 +169,12 @@ export default function CardButton() {
               width: styleButton.width,
               height: styleButton.height,
               borderRadius: styleButton.borderRadius,
-              minWidth: 126,
+              minWidth: 200,
               minHeight: 40,
+              fontSize:23,
+              fontWeight:'600',
+              boxShadow: "0 3px 10px rgba(0, 0, 0, 0.4)",
+              
             }}
           >
             Comprar agora
