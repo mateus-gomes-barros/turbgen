@@ -2,7 +2,7 @@
 
 import MiniCard from "@/components/ui/mini_card";
 import { config, configVideoProps, useScripts } from "@/contexts/ScriptContext";
-import { ChevronLeftSquare, ChevronRightSquare } from "lucide-react";
+import { ChevronLeftSquare, ChevronRightSquare, Info } from "lucide-react";
 import { setConfig } from "next/config";
 import { useEffect, useState } from "react";
 import CardAB from "../../[components]/card_ab";
@@ -232,9 +232,11 @@ const scriptAB = ()=> (`
   return (
     <div className="flex w-full h-full gap-4  px-8 py-8">
       <section className="flex-1 flex flex-col">
-        <h1 className="text-white font-medium text-2xl">
-          Script de Delay Teste A/B
-        </h1>
+      <div className='flex gap-4 items-center'>
+          <h1 className="text-white font-medium text-2xl">Script de Delay A/B</h1>
+          <Info color={"yellow"}/>
+          
+        </div>
         <div className="flex flex-col gap-4 mt-16">
           <div className="grid grid-flow-col grid-rows-2 gap-4">
             <MiniCard>

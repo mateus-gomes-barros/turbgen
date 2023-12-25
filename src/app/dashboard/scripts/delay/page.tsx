@@ -72,7 +72,9 @@ startWatchVideoProgress()
   return (
     <div className="flex w-full h-[80vh] gap-4  px-8 py-8">
       <section className="flex-1 flex flex-col">
-        <h1 className="text-white font-medium text-2xl">Script de Delay</h1>
+        <div className="flex gap-4 items-center">
+          <h1 className="text-white font-medium text-2xl">Script de Delay</h1>
+        </div>
         <div className="flex flex-col gap-4 mt-16">
           <div className="flex flex-1 gap-4">
             <MiniCard>
@@ -140,6 +142,18 @@ startWatchVideoProgress()
               Cole o código em sua página de vendas. Caso não saiba como, temos
               o tutorial abaixo:
             </p>
+
+            <div style={{ padding: "56.25% 0 0 0",position:"relative" }}>
+              <iframe
+                frameBorder="0"
+                allowFullScreen
+                src="https://scripts.converteai.net/731b1a17-a0f6-4521-b6f8-c62453dc0b90/players/653d0c1267a28d00081934df/embed.html"
+                id="ifr_653d0c1267a28d00081934df"
+                style={{position:"absolute",top:"0",left:"0",width:"100%",height:"100%"}}
+                referrerPolicy="origin"
+              ></iframe>
+            </div>
+
             <a
               target="_blank"
               className="bg-[#ec4141] mt-auto rounded-full hover:brightness-125 transition-all text-sm p-2 text-white text-center"
