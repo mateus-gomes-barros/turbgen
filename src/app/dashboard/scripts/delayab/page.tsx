@@ -1,14 +1,15 @@
 "use client";
 
 import MiniCard from "@/components/ui/mini_card";
-import { config, configVideoProps, useScripts } from "@/contexts/ScriptContext";
+import { useScripts } from "@/contexts/ScriptContext";
 import { ChevronLeftSquare, ChevronRightSquare, Info } from "lucide-react";
-import { setConfig } from "next/config";
 import { useEffect, useState } from "react";
 import CardAB from "../../[components]/card_ab";
+import Model from "../../[components]/model";
 
 export default function DelayAB() {
   const { configVideo, ClipBoardCopy, setConfigVideo } = useScripts();
+  const [closeModal, setCloseModal] = useState(false);
   const [scriptActual, setScriptActual] = useState(0);
   const alfabeto = [
     "A",
@@ -38,10 +39,7 @@ export default function DelayAB() {
     "Y",
     "Z",
   ];
-  const embed = `
-<div id="vid_653d0c1267a28d00081934df" style="position:relative;width:100%;padding: 56.25% 0 0;"><img id="thumb_653d0c1267a28d00081934df" src="https://images.converteai.net/731b1a17-a0f6-4521-b6f8-c62453dc0b90/players/653d0c1267a28d00081934df/thumbnail.jpg" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block;"><div id="backdrop_653d0c1267a28d00081934df" style="position:absolute;top:0;width:100%;height:100%;-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);"></div></div><script type="text/javascript" id="scr_653d0c1267a28d00081934df">var s=document.createElement("script");s.src="https://scripts.converteai.net/731b1a17-a0f6-4521-b6f8-c62453dc0b90/players/653d0c1267a28d00081934df/player.js",s.async=!0,document.head.appendChild(s);</script>
 
-`;
   const buildIds = () => {
     let ids = configVideo.configs
       .map((config) => {
@@ -61,7 +59,7 @@ export default function DelayAB() {
   };
 
   function BuildScripts() {
-   return buildIds().map((embeds) => {
+    return buildIds().map((embeds) => {
       return `if (
           smartplayer.instances[0].analytics.player.options.id ==
           "${embeds.id}"
@@ -79,7 +77,7 @@ export default function DelayAB() {
     });
   }
   function BuildScriptsDelay() {
-   return buildIds().map((embeds) => {
+    return buildIds().map((embeds) => {
       return `if (
         /* COLOCAR ENTRE AS '' O ID DO SEU PLAYER A E NO VALOR 10, COLOQUE O 
                  TEMPO QUE AS SEÇÕES DEVEM APARECER DURANTE O VÍDEO A*/
@@ -91,7 +89,7 @@ export default function DelayAB() {
     });
   }
 
-const scriptAB = ()=> (`
+  const scriptAB = () => `
 
 <style>
 
@@ -145,7 +143,9 @@ const scriptAB = ()=> (`
 
       smartplayer.instances[0].on("play", () => {
         /* COLOCAR ENTRE AS '' O ID DO SEU PLAYER A */
-        const buttonLinks = document.querySelectorAll("${configVideo.classButton || ".btn-red"}");
+        const buttonLinks = document.querySelectorAll("${
+          configVideo.classButton || ".btn-red"
+        }");
         console.log(buttonLinks);
 
 
@@ -161,7 +161,9 @@ const scriptAB = ()=> (`
         showHiddenElements();
       });
       smartplayer.instances[0].on("timeupdate", () => {
-        const buttonLinks = document.querySelectorAll("${configVideo.classButton || ".btn-red"}");
+        const buttonLinks = document.querySelectorAll("${
+          configVideo.classButton || ".btn-red"
+        }");
 
         ${BuildScriptsDelay().join(" ")}
 
@@ -185,7 +187,7 @@ const scriptAB = ()=> (`
   });
 </script>
 
-`)
+`;
 
   function MountObjectConfig(value: number) {
     if (value < configVideo.quant) {
@@ -232,11 +234,17 @@ const scriptAB = ()=> (`
   return (
     <div className="flex w-full h-full gap-4  px-8 py-8">
       <section className="flex-1 flex flex-col">
-      <div className='flex gap-4 items-center'>
-          <h1 className="text-white font-medium text-2xl">Script de Delay A/B</h1>
-          <Info color={"yellow"}/>
-          
+        <div className="flex gap-4 items-center">
+          <h1 className="text-white font-medium text-2xl">
+            Script de Delay A/B
+          </h1>
+          <Info
+            color={"yellow"}
+            onClick={() => setCloseModal(true)}
+            className="cursor-pointer"
+          />
         </div>
+
         <div className="flex flex-col gap-4 mt-16">
           <div className="grid grid-flow-col grid-rows-2 gap-4">
             <MiniCard>
@@ -288,13 +296,17 @@ const scriptAB = ()=> (`
         <h2 className="text-white">INFORMAÇÕES SOBRE SEU CÓDIGO GERADO</h2>
         <div className="flex flex-1 gap-4">
           <MiniCard>
-          <label className="text-white text-[14px]">
-                    Seu delay é de: {(configVideo.configs[scriptActual].time / 60).toFixed()} min e{" "}
-                    {(((configVideo.configs[scriptActual].time / 60) % 1) * 60).toFixed() + " s"}
-                  </label>
-                  <label className="text-white text-sm">
-                    O nome da sua classe é: {configVideo.className}
-                  </label>
+            <label className="text-white text-[14px]">
+              Seu delay é de:{" "}
+              {(configVideo.configs[scriptActual].time / 60).toFixed()} min e{" "}
+              {(
+                ((configVideo.configs[scriptActual].time / 60) % 1) *
+                60
+              ).toFixed() + " s"}
+            </label>
+            <label className="text-white text-sm">
+              O nome da sua classe é: {configVideo.className}
+            </label>
           </MiniCard>
           <MiniCard>
             <label className="text-white text-lg">INSTRUÇÕES:</label>
@@ -343,12 +355,30 @@ const scriptAB = ()=> (`
                 key={config.id}
                 data={config}
                 id={config.id}
-                action={()=> ClipBoardCopy(scriptAB())}
+                action={() => ClipBoardCopy(scriptAB())}
                 index={index}
               />
             );
           }
         })}
+        {closeModal && (
+          <Model close={() => setCloseModal(false)}>
+            <iframe
+              frameBorder="0"
+              allowFullScreen
+              src="https://scripts.converteai.net/731b1a17-a0f6-4521-b6f8-c62453dc0b90/players/653d0c1267a28d00081934df/embed.html"
+              id="ifr_653d0c1267a28d00081934df"
+              style={{
+                position: "absolute",
+                top: "0",
+                left: "0",
+                width: "100%",
+                height: "100%",
+              }}
+              referrerPolicy="origin"
+            ></iframe>
+          </Model>
+        )}
       </div>
     </div>
   );

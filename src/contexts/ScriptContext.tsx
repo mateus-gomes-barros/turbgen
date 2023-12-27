@@ -1,4 +1,5 @@
 "use client";
+import { AlertToast } from "@/helpers/toast";
 import React, { createContext, Dispatch, useContext, useState } from "react";
 
 export type styleButtonProps = {
@@ -83,11 +84,11 @@ export default function ScriptcontextProvider({
   } as styleButtonProps);
   const [ActivityCustomer, setActivityCustomer] = useState("button");
 
-  function ClipBoardCopy(text: string) {
+ function ClipBoardCopy(text: string) {
     return navigator.clipboard
       .writeText(text)
-      .then(function () {
-        alert("Texto copiado para a área de transferência");
+      .then(async function () {
+        await AlertToast()
       })
       .catch(function (err) {
         console.error("Erro ao copiar para a área de transferência: ", err);

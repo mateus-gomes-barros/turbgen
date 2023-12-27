@@ -3,7 +3,7 @@
 import MiniCard from "@/components/ui/mini_card";
 import { useScripts } from "@/contexts/ScriptContext";
 import { Copy } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 export default function Delay() {
   const [alreadyScript, setAlreadyScript] = useState(false);
   const { ClipBoardCopy, configDelay, setConfigDelay } = useScripts();
