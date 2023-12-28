@@ -1,5 +1,5 @@
 "use client";
-
+import './style.css'
 import MiniCard from "@/components/ui/mini_card";
 import { useScripts } from "@/contexts/ScriptContext";
 import { ChevronLeftSquare, ChevronRightSquare, Info } from "lucide-react";
@@ -39,7 +39,7 @@ export default function DelayAB() {
     "Y",
     "Z",
   ];
-
+  const numberVideos = Array.from({ length: 50 }, (_, index) => index + 1);
   const buildIds = () => {
     let ids = configVideo.configs
       .map((config) => {
@@ -227,6 +227,7 @@ export default function DelayAB() {
     }
     setScriptActual(index + 1);
   }
+
   useEffect(() => {
     console.log(configVideo);
   }, [configVideo]);
@@ -258,6 +259,13 @@ export default function DelayAB() {
                 min={2}
                 type="number"
               />
+                 {/* <select className="bg-[#4E0606] text-white outline-none select w-[80px] scrollbar " onChange={(e) => MountObjectConfig(Number(e.target.value))}>
+                {numberVideos.map((numero) => (
+                  <option key={numero} value={numero} className="bg-#ff0707ff text-white outline-none">
+                    {numero}
+                  </option>
+                ))}
+              </select> */}
             </MiniCard>
             <MiniCard>
               <label className="text-white text-sm">
@@ -298,9 +306,9 @@ export default function DelayAB() {
           <MiniCard>
             <label className="text-white text-[14px]">
               Seu delay é de:{" "}
-              {(configVideo.configs[scriptActual].time / 60).toFixed()} min e{" "}
+              {Math.trunc(configVideo.configs[scriptActual]?.time / 60)} min e{" "}
               {(
-                ((configVideo.configs[scriptActual].time / 60) % 1) *
+                ((configVideo.configs[scriptActual]?.time / 60) % 1) *
                 60
               ).toFixed() + " s"}
             </label>
@@ -331,7 +339,7 @@ export default function DelayAB() {
             className="hover:text-white cursor-pointer"
             onClick={() => handleBackScript(scriptActual)}
           />
-          {configVideo.configs.map((config, index) => {
+          {configVideo?.configs?.map((config, index) => {
             return (
               <label
                 key={config.id}

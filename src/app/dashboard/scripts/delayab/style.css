@@ -1,0 +1,20 @@
+/* SeuArquivoDeEstilo.css ou styles.css */
+
+.scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(75, 4, 4) transparent;
+  }
+  
+  .scrollbar::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  .scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgb(116, 5, 5);
+    border-radius: 6px;
+  }
+  
+  .scrollbar::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  

@@ -122,7 +122,7 @@ startWatchVideoProgress()
               <div className="flex flex-1 gap-4">
                 <MiniCard>
                   <label className="text-white text-[14px]">
-                    Seu delay é de: {(configDelay.time / 60).toFixed()} min e{" "}
+                    Seu delay é de: {Math.trunc(configDelay.time / 60 )} min e{" "}
                     {(((configDelay.time / 60) % 1) * 60).toFixed() + " s"}
                   </label>
                   <label className="text-white text-sm">
