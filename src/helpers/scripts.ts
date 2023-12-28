@@ -228,7 +228,7 @@ export const copy = [
     },
     { 
         title: 'Deixar o vídeo em Looping',
-        description: 'Para que ao terminar o vídeo, ele seja reiniciado automaticamente',
+        description: 'Para que, ao terminar o vídeo, ele seja reiniciado automaticamente',
         titleButton: 'Gerar e copiar',
         script: scriptLoop,
     },

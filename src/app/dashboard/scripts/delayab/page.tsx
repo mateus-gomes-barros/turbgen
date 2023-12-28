@@ -285,7 +285,7 @@ export default function DelayAB() {
             </MiniCard>
             <MiniCard>
               <label className="text-white text-sm">
-                Classe do botão de parâmetro
+                Classe do botão de parâmetro (opcional)
               </label>
               <input
                 onChange={(e) =>
@@ -319,7 +319,7 @@ export default function DelayAB() {
           <MiniCard>
             <label className="text-white text-lg">INSTRUÇÕES:</label>
             <p className="text-white text-sm">
-              Cole o código em sua página de vendas. Caso não saiba como, temos
+              Cole o código no HTML em sua página de vendas. Caso não saiba como, temos
               o tutorial abaixo:
             </p>
             <a
@@ -327,7 +327,7 @@ export default function DelayAB() {
               className="bg-[#bb3131] rounded-full hover:brightness-125 transition-all text-sm p-2 text-white text-center"
               href="https://help.vturb.com/pt-br/article/codigo-de-delay-para-sincronizar-elementos-da-pagina-com-o-video-xehbf8/"
             >
-              Tutorial Script de Delay
+              Tutorial Script de Delay do Teste A/B
             </a>
           </MiniCard>
         </div>

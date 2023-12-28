@@ -15,14 +15,13 @@ export default function Home() {
             placeholder="Seu email do VTurb"
             className="px-2 mb-4 text-white border-[1px] w-[60%] h-10 shadow-[0_5px_10px_1px_rgba(0,0,0,0.3)] focus:outline-none hover:border-[red] bg-transparent border-b rounded-2xl border-white"
           ></input>
-          <p className="text-center text-[red]  w-[80%] font-bold">
+          <p className="text-center text-[#df5353]  w-[80%] font-bold">
             Gere seus códigos sem precisar entender nada de programação, apenas
             digite e gere!
           </p>
-          <p className="text-center w-[80%] text-sm mt-4 text-white">
-            Aplicação feita para gerar seus códigos (estilizações, automações e
-            ações) para sua página de vendas, juntamente com o player do vturb.
-            Não é necessário mexer com código ou conceitos técnicos. Divirta-se.
+          <p className="text-center w-[80%] text-sm mt-6 text-white">
+          Estilizações, automações e ações integradas ao player do VTurb, tudo sem a necessidade de mexer com código ou conceitos técnicos. 
+          Potencialize sua presença online com simplicidade e velocidade. Ah, e divirta-se!
           </p>
         </div>
         <button
