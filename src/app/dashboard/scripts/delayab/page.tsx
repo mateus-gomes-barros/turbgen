@@ -190,29 +190,31 @@ export default function DelayAB() {
 `;
 
   function MountObjectConfig(value: number) {
-    if (value < configVideo.quant) {
+    let newConfigs = []
+    if(value <2){
+      return
+    }
+    if(value >26){
+      return
+    }
+    if(value < configVideo.quant) {
       if (scriptActual > 0) {
         setScriptActual(scriptActual - 1);
       }
-      let newConfigs = configVideo.configs.filter(
-        (element, index, arr) => index !== arr.length - 1
-      );
-      setConfigVideo({ ...configVideo, configs: newConfigs, quant: value });
-      return;
     }
-    if (configVideo.configs.length > 25) {
-      return;
+    for(let i = 0; i< value; i++){
+      const newVideoObj = {
+        id: alfabeto[i],
+        time: configVideo?.configs[i]?.time || 10,
+        embed:configVideo?.configs[i]?.embed || "",
+      };
+      newConfigs.push(newVideoObj)
     }
-    const newVideoObj = {
-      id: alfabeto[configVideo.configs.length],
-      time: 10,
-      embed: "",
-    };
     setConfigVideo({
       ...configVideo,
-      configs: [...configVideo.configs, newVideoObj],
+      configs: newConfigs,
       quant: value,
-    });
+    });    
   }
 
   function handleBackScript(index: number) {
@@ -227,10 +229,6 @@ export default function DelayAB() {
     }
     setScriptActual(index + 1);
   }
-
-  useEffect(() => {
-    console.log(configVideo);
-  }, [configVideo]);
 
   return (
     <div className="flex w-full h-full gap-4  px-8 py-8">
@@ -305,7 +303,7 @@ export default function DelayAB() {
         <div className="flex flex-1 gap-4">
           <MiniCard>
             <label className="text-white text-[14px]">
-              Seu delay é de:{" "}
+              Seu delay do video {configVideo.configs[scriptActual].id} é de:{" "}
               {Math.trunc(configVideo.configs[scriptActual]?.time / 60)} min e{" "}
               {(
                 ((configVideo.configs[scriptActual]?.time / 60) % 1) *
